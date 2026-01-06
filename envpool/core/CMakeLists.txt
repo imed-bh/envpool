@@ -131,8 +131,19 @@ if(ENVPOOL_BUILD_BENCHMARKS)
             benchmark::benchmark_main
     )
 
+    add_executable(async_envpool_benchmark async_envpool_benchmark.cc)
+    target_link_libraries(async_envpool_benchmark
+        PRIVATE
+            envpool_core
+            envpool_dummy
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
     # Install benchmarks
-    install(TARGETS circular_buffer_benchmark
+    install(TARGETS
+        circular_buffer_benchmark
+        async_envpool_benchmark
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}/benchmarks
     )
 endif()
