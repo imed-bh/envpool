@@ -1,0 +1,181 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      },
+      "toolchainFile": "${sourceDir}/build/${presetName}/generators/conan_toolchain.cmake"
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "Debug build with sanitizers",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENVPOOL_BUILD_TESTS": "ON",
+        "ENVPOOL_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "description": "Optimized release build",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENVPOOL_BUILD_TESTS": "ON",
+        "ENVPOOL_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "RelWithDebInfo",
+      "description": "Release with debug info for profiling",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ENVPOOL_BUILD_TESTS": "ON",
+        "ENVPOOL_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "minimal",
+      "displayName": "Minimal",
+      "description": "Minimal build without optional components",
+      "inherits": "release",
+      "cacheVariables": {
+        "ENVPOOL_BUILD_TESTS": "OFF",
+        "ENVPOOL_BUILD_BENCHMARKS": "OFF",
+        "ENVPOOL_BUILD_ATARI": "OFF",
+        "ENVPOOL_BUILD_MUJOCO": "OFF",
+        "ENVPOOL_BUILD_VIZDOOM": "OFF",
+        "ENVPOOL_BUILD_PROCGEN": "OFF"
+      }
+    },
+    {
+      "name": "modern",
+      "displayName": "Modern C++26",
+      "description": "Use modern C++26 refactored implementations",
+      "inherits": "release",
+      "cacheVariables": {
+        "CMAKE_CXX_STANDARD": "26",
+        "ENVPOOL_USE_MODERN_IMPL": "ON"
+      }
+    },
+    {
+      "name": "cuda",
+      "displayName": "CUDA Enabled",
+      "description": "Build with CUDA support",
+      "inherits": "release",
+      "cacheVariables": {
+        "ENVPOOL_ENABLE_CUDA": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "jobs": 0
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "jobs": 0
+    },
+    {
+      "name": "relwithdebinfo",
+      "configurePreset": "relwithdebinfo",
+      "jobs": 0
+    },
+    {
+      "name": "minimal",
+      "configurePreset": "minimal",
+      "jobs": 0
+    },
+    {
+      "name": "modern",
+      "configurePreset": "modern",
+      "jobs": 0
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": false
+      }
+    },
+    {
+      "name": "release",
+      "configurePreset": "release",
+      "inherits": "default"
+    }
+  ],
+  "packagePresets": [
+    {
+      "name": "default",
+      "configurePreset": "release",
+      "generators": [
+        "TGZ",
+        "ZIP"
+      ]
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "debug"
+        },
+        {
+          "type": "test",
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "name": "release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "release"
+        },
+        {
+          "type": "build",
+          "name": "release"
+        },
+        {
+          "type": "test",
+          "name": "release"
+        },
+        {
+          "type": "package",
+          "name": "default"
+        }
+      ]
+    }
+  ]
+}
