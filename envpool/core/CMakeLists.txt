@@ -109,6 +109,15 @@ if(ENVPOOL_BUILD_TESTS)
                 GTest::gtest_main
         )
         gtest_discover_tests(state_buffer_modern_test)
+
+        add_executable(async_envpool_modern_test async_envpool_modern_test.cc)
+        target_link_libraries(async_envpool_modern_test
+            PRIVATE
+                envpool_core
+                envpool_dummy
+                GTest::gtest_main
+        )
+        gtest_discover_tests(async_envpool_modern_test)
     endif()
 endif()
 
