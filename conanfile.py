@@ -93,7 +93,7 @@ class EnvPoolConan(ConanFile):
         """Conan Center dependencies"""
         # Core dependencies
         self.requires("pybind11/2.11.1")
-        self.requires("gtest/1.14.0")
+        self.requires("catch2/3.8.0")  # Modern C++ testing framework
         self.requires("glog/0.6.0")
         self.requires("gflags/2.2.2")
         self.requires("abseil/20230802.1")

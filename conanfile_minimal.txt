@@ -1,0 +1,12 @@
+[requires]
+catch2/3.8.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
+
+[options]
+catch2/*:shared=False

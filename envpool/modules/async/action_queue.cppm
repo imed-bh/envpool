@@ -26,9 +26,55 @@
 
 module;
 
-export module envpool.async.action;
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <cmath>
+#include <concepts>
+#include <cstddef>
+#include <cstdint>
+#include <expected>
+#include <format>
+#include <functional>
+#include <iostream>
+#include <memory>
+#include <numbers>
+#include <print>
+#include <random>
+#include <semaphore>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <thread>
+#include <utility>
+#include <vector>
 
-import std;
+#include <algorithm>
+#include <array>
+#include <atomic>
+#include <cmath>
+#include <concepts>
+#include <cstddef>
+#include <cstdint>
+#include <expected>
+#include <format>
+#include <functional>
+#include <iostream>
+#include <memory>
+#include <numbers>
+#include <print>
+#include <random>
+#include <semaphore>
+#include <span>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <thread>
+#include <utility>
+#include <vector>
+
+export module envpool.async.action;
 import envpool.core.types;
 import envpool.core.errors;
 import envpool.async.buffer;
