@@ -22,7 +22,7 @@ else()
 endif()
 
 # Tests
-if(ENVPOOL_BUILD_TESTS)
+if(ENVPOOL_BUILD_TESTS AND GTest_FOUND)
     # Original implementation tests
     add_executable(action_buffer_queue_test action_buffer_queue_test.cc)
     target_link_libraries(action_buffer_queue_test

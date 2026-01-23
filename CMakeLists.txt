@@ -57,15 +57,22 @@ elseif(MSVC)
     endif()
 endif()
 
-# Find Conan dependencies
-find_package(pybind11 REQUIRED)
-find_package(GTest REQUIRED)
-find_package(glog REQUIRED)
-find_package(gflags REQUIRED)
-find_package(absl REQUIRED)
-find_package(ZLIB REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system filesystem)
+# Find Conan dependencies (only if needed)
+if(ENVPOOL_BUILD_PYTHON)
+    find_package(pybind11 REQUIRED)
+endif()
+
+if(ENVPOOL_BUILD_TESTS)
+    find_package(GTest)
+endif()
+
+# Core dependencies (optional for C++20 modules only build)
+find_package(glog)
+find_package(gflags)
+find_package(absl)
+find_package(ZLIB)
+find_package(OpenCV)
+find_package(Boost COMPONENTS system filesystem)
 
 if(ENVPOOL_BUILD_ATARI)
     find_package(SDL2 REQUIRED)
@@ -155,13 +162,16 @@ target_include_directories(envpool_common INTERFACE
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(envpool_common INTERFACE
-    glog::glog
-    gflags::gflags
-    absl::base
-    absl::strings
-    absl::synchronization
-)
+# Optional dependencies for envpool_common
+if(TARGET glog::glog)
+    target_link_libraries(envpool_common INTERFACE glog::glog)
+endif()
+if(TARGET gflags::gflags)
+    target_link_libraries(envpool_common INTERFACE gflags::gflags)
+endif()
+if(TARGET absl::base)
+    target_link_libraries(envpool_common INTERFACE absl::base absl::strings absl::synchronization)
+endif()
 
 target_compile_features(envpool_common INTERFACE cxx_std_23)
 
@@ -203,7 +213,8 @@ endif()
 # Tests
 if(ENVPOOL_BUILD_TESTS)
     enable_testing()
-    # Tests are added in subdirectories
+    # C++ module tests
+    add_subdirectory(tests/cpp)
 endif()
 
 # Install

@@ -16,7 +16,7 @@ target_link_libraries(envpool_dummy INTERFACE
 )
 
 # Tests
-if(ENVPOOL_BUILD_TESTS)
+if(ENVPOOL_BUILD_TESTS AND GTest_FOUND)
     add_executable(dummy_envpool_test dummy_envpool_test.cc)
     target_link_libraries(dummy_envpool_test
         PRIVATE
