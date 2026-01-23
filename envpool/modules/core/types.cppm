@@ -24,32 +24,9 @@
 
 module;
 
-#include <algorithm>
-#include <array>
-#include <atomic>
-#include <cmath>
-#include <concepts>
-#include <cstddef>
-#include <cstdint>
-#include <expected>
-#include <format>
-#include <functional>
-#include <iostream>
-#include <memory>
-#include <numbers>
-#include <print>
-#include <random>
-#include <semaphore>
-#include <span>
-#include <stdexcept>
-#include <string>
-#include <string_view>
-#include <thread>
-#include <utility>
-#include <vector>
-
-// Import C++ standard library
 export module envpool.core.types;
+
+import std;
 
 
 namespace envpool::core {
@@ -130,7 +107,7 @@ export using byte_type = std::byte;
  * @brief Move-only function wrapper
  */
 export template <typename Signature>
-// using MoveOnlyFunction = std::move_only_function<Signature>; // C++23 not fully supported yet
+using MoveOnlyFunction = std::move_only_function<Signature>;
 
 /**
  * @brief Unique pointer
