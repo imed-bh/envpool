@@ -191,7 +191,11 @@ add_subdirectory(envpool/box2d)
 add_subdirectory(envpool/minigrid)
 add_subdirectory(envpool/dummy)
 
-# Python bindings
+# C++20 Modules (Phase 2: Environment implementations with nanobind)
+add_subdirectory(envpool/modules)
+add_subdirectory(envpool/bindings)
+
+# Python bindings (original pybind11)
 if(ENVPOOL_BUILD_PYTHON)
     add_subdirectory(envpool/python)
 endif()

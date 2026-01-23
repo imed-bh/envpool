@@ -73,6 +73,74 @@ add_cxx_module(envpool_module_dummy
   DEPENDENCIES std envpool_module_types
 )
 
+# Classic Control Environments
+add_cxx_module(envpool_module_cartpole
+  MODULE_NAME "envpool.env.classic_control.cartpole"
+  SOURCES env/classic_control/cartpole.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_pendulum
+  MODULE_NAME "envpool.env.classic_control.pendulum"
+  SOURCES env/classic_control/pendulum.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_mountain_car
+  MODULE_NAME "envpool.env.classic_control.mountain_car"
+  SOURCES env/classic_control/mountain_car.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_mountain_car_continuous
+  MODULE_NAME "envpool.env.classic_control.mountain_car_continuous"
+  SOURCES env/classic_control/mountain_car_continuous.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_acrobot
+  MODULE_NAME "envpool.env.classic_control.acrobot"
+  SOURCES env/classic_control/acrobot.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+# Toy Text Environments
+add_cxx_module(envpool_module_blackjack
+  MODULE_NAME "envpool.env.toy_text.blackjack"
+  SOURCES env/toy_text/blackjack.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_catch
+  MODULE_NAME "envpool.env.toy_text.catch"
+  SOURCES env/toy_text/catch.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_cliffwalking
+  MODULE_NAME "envpool.env.toy_text.cliffwalking"
+  SOURCES env/toy_text/cliffwalking.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_frozen_lake
+  MODULE_NAME "envpool.env.toy_text.frozen_lake"
+  SOURCES env/toy_text/frozen_lake.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_nchain
+  MODULE_NAME "envpool.env.toy_text.nchain"
+  SOURCES env/toy_text/nchain.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
+add_cxx_module(envpool_module_taxi
+  MODULE_NAME "envpool.env.toy_text.taxi"
+  SOURCES env/toy_text/taxi.cppm
+  DEPENDENCIES std envpool_module_types
+)
+
 #===============================================================================
 # Module Interface Library (for easy linking)
 #===============================================================================
@@ -87,6 +155,19 @@ target_link_libraries(envpool_modules INTERFACE
   envpool_module_state_queue
   envpool_module_async_pool
   envpool_module_dummy
+  # Classic Control
+  envpool_module_cartpole
+  envpool_module_pendulum
+  envpool_module_mountain_car
+  envpool_module_mountain_car_continuous
+  envpool_module_acrobot
+  # Toy Text
+  envpool_module_blackjack
+  envpool_module_catch
+  envpool_module_cliffwalking
+  envpool_module_frozen_lake
+  envpool_module_nchain
+  envpool_module_taxi
 )
 
-message(STATUS "C++20 modules configured: 9 modules")
+message(STATUS "C++20 modules configured: 20 modules (9 core + 11 environments)")

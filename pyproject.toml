@@ -1,0 +1,148 @@
+[build-system]
+requires = ["scikit-build-core>=0.8.0", "nanobind>=2.0.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "envpool2"
+version = "0.1.0"
+description = "EnvPool with C++20 modules and nanobind - High-performance parallel RL environments"
+readme = "README.md"
+authors = [
+    {name = "Garena Online Private Limited"},
+]
+license = {text = "Apache-2.0"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.19.0",
+    "gymnasium>=0.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sail-sg/envpool"
+Documentation = "https://envpool.readthedocs.io"
+Repository = "https://github.com/sail-sg/envpool"
+"Bug Tracker" = "https://github.com/sail-sg/envpool/issues"
+
+[tool.scikit-build]
+cmake.minimum-version = "3.28"
+cmake.build-type = "Release"
+cmake.verbose = true
+wheel.packages = ["envpool2"]
+
+# CMake arguments
+cmake.args = [
+    "-DENVPOOL_BUILD_TESTS=OFF",
+    "-DENVPOOL_BUILD_PYTHON=OFF",
+    "-DCMAKE_CXX_STANDARD=23",
+]
+
+# Source directory
+cmake.source-dir = "."
+build-dir = "build/{wheel_tag}"
+
+# Exclude files from wheel
+wheel.exclude = [
+    "*.cpp",
+    "*.cppm",
+    "*.h",
+    "CMakeLists.txt",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--cov=envpool2",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | \.eggs
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.tox
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "numpy.*",
+    "gymnasium.*",
+]
+ignore_missing_imports = true
+
+[tool.cibuildwheel]
+build = ["cp38-*", "cp39-*", "cp310-*", "cp311-*", "cp312-*"]
+skip = ["*-win32", "*-manylinux_i686", "*-musllinux_*"]
+test-requires = ["pytest", "gymnasium"]
+test-command = "pytest {project}/tests"
+
+[tool.cibuildwheel.linux]
+before-all = [
+    "yum install -y epel-release",
+    "yum install -y cmake3 gcc-toolset-11",
+]
+environment = {CMAKE_GENERATOR="Ninja"}
+
+[tool.cibuildwheel.macos]
+before-all = [
+    "brew install cmake ninja",
+]
+environment = {CMAKE_GENERATOR="Ninja"}

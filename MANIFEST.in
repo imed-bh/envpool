@@ -1,1 +1,40 @@
+# Include source files for building
+include pyproject.toml
+include CMakeLists.txt
+include README.md
 include LICENSE
+include MIGRATION_PHASE2.md
+include BUILD.md
+
+# Include all CMake files
+recursive-include cmake *.cmake *.cmake.in
+
+# Include all module sources
+recursive-include envpool/modules *.cppm *.h CMakeLists.txt
+
+# Include all binding sources
+recursive-include envpool/bindings *.cpp *.h CMakeLists.txt
+
+# Include Python package
+recursive-include envpool2 *.py
+
+# Include tests
+recursive-include tests *.py
+
+# Exclude build artifacts
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude *.o
+global-exclude *.a
+
+# Exclude version control
+prune .git
+prune .github
+
+# Exclude build directories
+prune build
+prune dist
+prune .eggs
+prune *.egg-info
