@@ -149,3 +149,5 @@ _vizdoom*
 MUJOCO_LOG.TXT
 .vscode/
 .venv_test/
+CMakeUserPresets.json
+build_*/
